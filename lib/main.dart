@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'finance_app.dart';
 
 void main() {
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,4 +17,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
