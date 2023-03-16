@@ -20,6 +20,10 @@ class FinanceApp extends StatelessWidget {
         _selector(),
         _expenses(),
         _graph(),
+        Container(
+          color: Colors.blueAccent.withOpacity(0.15),
+          height: 18.0,
+        ),
         _list(),
       ],
     ));
@@ -56,7 +60,17 @@ class FinanceApp extends StatelessWidget {
     );
   }
 
-  _list() => Container();
+  _list() {
+    return  Expanded(
+      child:  ListView.separated(
+        itemBuilder: (context, index) => _Item(FontAwesomeIcons.shoppingCart, "Shopping", 14, 230.00),
+        separatorBuilder: (context, index) => Container(
+          color: Colors.blueAccent.withOpacity(0.15),
+          height: 8.0,
+        ), itemCount: 10,
+    )
+    );
+  }
 
 
   
@@ -86,6 +100,41 @@ class FinanceApp extends StatelessWidget {
         onPressed: () {},
       ),
       body: _body(),
+    );
+  }
+  
+  _Item(IconData icon, String name, int percent, double value) {
+    return ListTile(
+      leading: Icon(icon, size: 32.0,),
+      title: Text(name,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 20.0,
+      ),
+      ),
+      subtitle: Text("$percent% of expenses",
+      style: TextStyle(
+        fontSize: 20.0,
+        color: Colors.blueGrey
+      ),
+      ),
+      trailing: Container(
+        decoration: BoxDecoration(
+          color:  Colors.blueAccent.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(3.0),
+        ),
+        child:  Padding(
+          padding: EdgeInsets.all(8.0), 
+          child: Text("\$$value",
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            color: Colors.blueAccent,
+            fontSize: 18.0
+
+          ),)
+        ) ,
+      )
+      ,
     );
   }
 }
