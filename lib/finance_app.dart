@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'graph_wigget.dart';
 
 class FinanceApp extends StatelessWidget {
   Widget _bottomAction(IconData icon) {
@@ -48,9 +49,17 @@ class FinanceApp extends StatelessWidget {
     );
   }
 
-  _graph() => Container();
+  _graph() {
+    return Container(
+      height: 250.0,
+      child: GraphWidget(),
+    );
+  }
 
   _list() => Container();
+
+
+  
   @override
   Widget build(BuildContext context) {
     final _buttomBar = BottomAppBar(
