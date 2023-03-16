@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'graph_wigget.dart';
 
-class FinanceApp extends StatelessWidget {
+class FinanceApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _FinanceApp();
+  }
+}
+
+class _FinanceApp extends State<FinanceApp> {
   late PageController _controller;
-  late int currentPage = 10;
+  late int currentPage = 9;
 
   Widget _bottomAction(IconData icon) {
     return InkWell(
@@ -35,8 +43,12 @@ class FinanceApp extends StatelessWidget {
   Widget _pageItem(String name, int position) {
     var _alignment;
 
-    final seleted = TextStyle( fontSize: 20.0, color: Colors.blueGrey, fontWeight: FontWeight.bold);
-    final unseleted = TextStyle(fontSize: 20.0,color: Colors.blueGrey.withOpacity(0.4), fontWeight: FontWeight.normal);
+    final seleted = TextStyle(
+        fontSize: 20.0, color: Colors.blueGrey, fontWeight: FontWeight.bold);
+    final unseleted = TextStyle(
+        fontSize: 20.0,
+        color: Colors.blueGrey.withOpacity(0.4),
+        fontWeight: FontWeight.normal);
 
     if (position == currentPage) {
       _alignment = Alignment.center;
@@ -47,8 +59,10 @@ class FinanceApp extends StatelessWidget {
     }
     return Align(
       alignment: _alignment,
-      child: Text(name,
-      style: position == currentPage ? seleted: unseleted,),
+      child: Text(
+        name,
+        style: position == currentPage ? seleted : unseleted,
+      ),
     );
   }
 
@@ -57,19 +71,24 @@ class FinanceApp extends StatelessWidget {
         size: Size.fromHeight(70.0),
         child: PageView(
           controller: _controller,
+          onPageChanged: (newPage) {
+            setState(() {
+              currentPage = newPage;
+            });
+          },
           children: [
-            _pageItem("Enero", 1),
-            _pageItem("Febrero", 2),
-            _pageItem("Marzo", 3),
-            _pageItem("Abril", 4),
-            _pageItem("Mayo", 5),
-            _pageItem("Junio", 6),
-            _pageItem("Julio", 7),
-            _pageItem("Agosto", 8),
-            _pageItem("Septiembre", 9),
-            _pageItem("Octubre", 10),
-            _pageItem("Noviembre", 11),
-            _pageItem("Diciembre", 12),
+            _pageItem("Enero", 0),
+            _pageItem("Febrero", 1),
+            _pageItem("Marzo", 2),
+            _pageItem("Abril", 3),
+            _pageItem("Mayo", 4),
+            _pageItem("Junio", 5),
+            _pageItem("Julio", 6),
+            _pageItem("Agosto", 7),
+            _pageItem("Septiembre", 8),
+            _pageItem("Octubre", 9),
+            _pageItem("Noviembre", 10),
+            _pageItem("Diciembre", 11),
           ],
         ));
   }
@@ -153,8 +172,6 @@ class FinanceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _controller =
-        PageController(initialPage: currentPage, viewportFraction: 0.4);
     final _buttomBar = BottomAppBar(
       notchMargin: 4.0,
       shape: CircularNotchedRectangle(),
@@ -180,5 +197,13 @@ class FinanceApp extends StatelessWidget {
       ),
       body: _body(),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _controller =
+        PageController(initialPage: currentPage, viewportFraction: 0.4);
+    super.initState();
   }
 }
