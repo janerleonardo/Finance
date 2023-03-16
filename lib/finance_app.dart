@@ -3,6 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'graph_wigget.dart';
 
 class FinanceApp extends StatelessWidget {
+  late PageController _controller;
+  late int currentPage = 10;
+
   Widget _bottomAction(IconData icon) {
     return InkWell(
       child: Padding(
@@ -29,74 +32,46 @@ class FinanceApp extends StatelessWidget {
     ));
   }
 
-  _selector() {
-    return SizedBox.fromSize( 
-      size: Size.fromHeight(70.0)
-      ,child: PageView(
-      children: [
-        Text("Enero",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-            )
-            ),
-        Text("Febrero",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-            )
-            ),
-        Text("Marzo",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-            )
-            ),
-        Text("Abril",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-            )
-            ),
-        Text("Mayo",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-            )
-            ),
-        Text("Junio",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-            )
-            ),
-        Text("Julio",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-            )
-            ),
-        Text("Agosto",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-            )
-            ),
-        Text("Septiembre",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-            )
-            ),
-        Text("Octubre",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-            )
-            ),
-        Text("Noviembre",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-            )
-            ),
-        Text("Diciembre",
-        style: TextStyle(
-            fontWeight: FontWeight.bold
-            )
-            ),
-      ],
-    )
+  Widget _pageItem(String name, int position) {
+    var _alignment;
+
+    final seleted = TextStyle( fontSize: 20.0, color: Colors.blueGrey, fontWeight: FontWeight.bold);
+    final unseleted = TextStyle(fontSize: 20.0,color: Colors.blueGrey.withOpacity(0.4), fontWeight: FontWeight.normal);
+
+    if (position == currentPage) {
+      _alignment = Alignment.center;
+    } else if (position > currentPage) {
+      _alignment = Alignment.centerRight;
+    } else {
+      _alignment = Alignment.centerLeft;
+    }
+    return Align(
+      alignment: _alignment,
+      child: Text(name,
+      style: position == currentPage ? seleted: unseleted,),
     );
+  }
+
+  _selector() {
+    return SizedBox.fromSize(
+        size: Size.fromHeight(70.0),
+        child: PageView(
+          controller: _controller,
+          children: [
+            _pageItem("Enero", 1),
+            _pageItem("Febrero", 2),
+            _pageItem("Marzo", 3),
+            _pageItem("Abril", 4),
+            _pageItem("Mayo", 5),
+            _pageItem("Junio", 6),
+            _pageItem("Julio", 7),
+            _pageItem("Agosto", 8),
+            _pageItem("Septiembre", 9),
+            _pageItem("Octubre", 10),
+            _pageItem("Noviembre", 11),
+            _pageItem("Diciembre", 12),
+          ],
+        ));
   }
 
   _expenses() {
@@ -129,21 +104,57 @@ class FinanceApp extends StatelessWidget {
   }
 
   _list() {
-    return  Expanded(
-      child:  ListView.separated(
-        itemBuilder: (context, index) => _Item(FontAwesomeIcons.shoppingCart, "Shopping", 14, 230.00),
-        separatorBuilder: (context, index) => Container(
-          color: Colors.blueAccent.withOpacity(0.15),
-          height: 8.0,
-        ), itemCount: 10,
-    )
+    return Expanded(
+        child: ListView.separated(
+      itemBuilder: (context, index) =>
+          _Item(FontAwesomeIcons.shoppingCart, "Shopping", 14, 230.00),
+      separatorBuilder: (context, index) => Container(
+        color: Colors.blueAccent.withOpacity(0.15),
+        height: 8.0,
+      ),
+      itemCount: 10,
+    ));
+  }
+
+  _Item(IconData icon, String name, int percent, double value) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        size: 32.0,
+      ),
+      title: Text(
+        name,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 20.0,
+        ),
+      ),
+      subtitle: Text(
+        "$percent% of expenses",
+        style: TextStyle(fontSize: 20.0, color: Colors.blueGrey),
+      ),
+      trailing: Container(
+        decoration: BoxDecoration(
+          color: Colors.blueAccent.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(3.0),
+        ),
+        child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              "\$$value",
+              style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.blueAccent,
+                  fontSize: 18.0),
+            )),
+      ),
     );
   }
 
-
-  
   @override
   Widget build(BuildContext context) {
+    _controller =
+        PageController(initialPage: currentPage, viewportFraction: 0.4);
     final _buttomBar = BottomAppBar(
       notchMargin: 4.0,
       shape: CircularNotchedRectangle(),
@@ -168,41 +179,6 @@ class FinanceApp extends StatelessWidget {
         onPressed: () {},
       ),
       body: _body(),
-    );
-  }
-  
-  _Item(IconData icon, String name, int percent, double value) {
-    return ListTile(
-      leading: Icon(icon, size: 32.0,),
-      title: Text(name,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 20.0,
-      ),
-      ),
-      subtitle: Text("$percent% of expenses",
-      style: TextStyle(
-        fontSize: 20.0,
-        color: Colors.blueGrey
-      ),
-      ),
-      trailing: Container(
-        decoration: BoxDecoration(
-          color:  Colors.blueAccent.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(3.0),
-        ),
-        child:  Padding(
-          padding: EdgeInsets.all(8.0), 
-          child: Text("\$$value",
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            color: Colors.blueAccent,
-            fontSize: 18.0
-
-          ),)
-        ) ,
-      )
-      ,
     );
   }
 }
