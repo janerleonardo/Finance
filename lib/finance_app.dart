@@ -29,7 +29,75 @@ class FinanceApp extends StatelessWidget {
     ));
   }
 
-  _selector() => Container();
+  _selector() {
+    return SizedBox.fromSize( 
+      size: Size.fromHeight(70.0)
+      ,child: PageView(
+      children: [
+        Text("Enero",
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+            )
+            ),
+        Text("Febrero",
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+            )
+            ),
+        Text("Marzo",
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+            )
+            ),
+        Text("Abril",
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+            )
+            ),
+        Text("Mayo",
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+            )
+            ),
+        Text("Junio",
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+            )
+            ),
+        Text("Julio",
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+            )
+            ),
+        Text("Agosto",
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+            )
+            ),
+        Text("Septiembre",
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+            )
+            ),
+        Text("Octubre",
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+            )
+            ),
+        Text("Noviembre",
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+            )
+            ),
+        Text("Diciembre",
+        style: TextStyle(
+            fontWeight: FontWeight.bold
+            )
+            ),
+      ],
+    )
+    );
+  }
 
   _expenses() {
     return Column(
