@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,8 +10,25 @@ import 'graph_wigget.dart';
 class MonthWedget extends StatefulWidget {
   final List<DocumentSnapshot> documents;
   final double  total_value ;
-   MonthWedget({key, required this.documents}): 
+  final List<double> perDay;
+  final Map<String,int> categories;
+
+
+  
+  MonthWedget({key, required this.documents}): 
   total_value = documents.map((e) => e['value']).fold(0.0, (a, b) => a+b),
+  perDay = List.generate(30, (index) {
+      return documents.where((doc) => doc['day'] == (index + 1))
+                      .map((e) => e['value']).fold(0.0, (a, b) => a+b);
+  }),
+  categories = documents.fold({}, (Map<String,int> map, document) {
+        if (!map.containsKey(document['category'])){
+            map[document['category']] = 0;
+        }
+
+        map[document['category']] = document['value'];
+        return map;
+  }),
   super (key: key);
 
   @override
@@ -58,24 +77,27 @@ class _MonthState extends State<MonthWedget> {
   _graph() {
     return Container(
       height: 250.0,
-      child: GraphWidget(),
+      child: GraphWidget( data: widget.perDay,),
     );
   }
 
   _list() {
     return Expanded(
         child: ListView.separated(
-      itemBuilder: (context, index) =>
-          _Item(FontAwesomeIcons.shoppingCart, "Shopping", 14, 230.00),
+      itemBuilder: (context, index) {
+            var key = widget.categories.keys.elementAt(index);
+            var data1 = widget.categories[key];
+            return _Item(FontAwesomeIcons.shoppingCart, key, (100*data1!) as int, data1!);
+            },
       separatorBuilder: (context, index) => Container(
         color: Colors.blueAccent.withOpacity(0.15),
         height: 8.0,
       ),
-      itemCount: 10,
+      itemCount: widget.categories.keys.length,
     ));
   }
 
-  _Item(IconData icon, String name, int percent, double value) {
+  _Item(IconData icon, String name, int percent, int value) {
     return ListTile(
       leading: Icon(
         icon,
