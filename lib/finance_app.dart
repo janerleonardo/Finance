@@ -82,6 +82,10 @@ class _FinanceApp extends State<FinanceApp> {
           onPageChanged: (newPage) {
             setState(() {
               currentPage = newPage;
+              _query = FirebaseFirestore.instance
+                    .collection("expenses")
+                    .where("month", isEqualTo: currentPage +1)
+                    .snapshots();
             });
           },
           children: [
