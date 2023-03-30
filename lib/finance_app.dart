@@ -129,7 +129,9 @@ class _FinanceApp extends State<FinanceApp> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed('/add');
+        },
       ),
       body: _body(),
     );

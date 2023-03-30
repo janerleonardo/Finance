@@ -1,3 +1,4 @@
+import 'package:finance/add_bills.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'finance_app.dart';
@@ -16,7 +17,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: FinanceApp(),
+      routes: {
+        '/':(context) => FinanceApp(),
+        '/add':(context) => AddExpenses()
+      },
     );
   }
 }
