@@ -1,15 +1,31 @@
 import 'package:flutter/material.dart';
 
-class Numpad extends StatelessWidget {
-  const Numpad({super.key});
+class Numpad extends StatefulWidget {
+  const Numpad({super.key, required this.sendValue});
+  final Function(double, bool) sendValue;
 
+  @override
+  State<Numpad> createState() => _NumpadState();
+}
+
+class _NumpadState extends State<Numpad> {
+  double value = 0.0;
   Widget _num(String num, double height) {
-    return Container(
-      height: height,
-      child: Center(
-        child: Text(
-          num,
-          style: TextStyle(fontSize: 40, color: Colors.grey),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        setState(() {
+          value = double.parse(num);
+        });
+        widget.sendValue(value, true);
+      },
+      child: Container(
+        height: height,
+        child: Center(
+          child: Text(
+            num,
+            style: TextStyle(fontSize: 40, color: Colors.grey),
+          ),
         ),
       ),
     );
@@ -41,16 +57,24 @@ class Numpad extends StatelessWidget {
             TableRow(children: [
               _num(",", height),
               _num("0", height),
-              Container(
-                height: height,
-                child: Center(
-                  child: Icon(
-                    Icons.backspace,
-                    color: Colors.grey,
-                    size: 40,
-                  ),
-                ),
-              )
+              GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    setState(() {
+                      value = 0.0;
+                    });
+                    widget.sendValue(value, false);
+                  },
+                  child: Container(
+                    height: height,
+                    child: Center(
+                      child: Icon(
+                        Icons.backspace,
+                        color: Colors.grey,
+                        size: 40,
+                      ),
+                    ),
+                  ))
             ])
           ],
         );

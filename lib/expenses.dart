@@ -14,7 +14,7 @@ class Expenses extends StatefulWidget {
 
 class _ExpensesState extends State<Expenses> {
   late String category;
-  late double value = 42.500;
+  late double value = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,9 +74,36 @@ class _ExpensesState extends State<Expenses> {
         ),
       );
 
-  _numpad() => Numpad();
+  _numpad() => Numpad(sendValue: (newValue, inds)  {
+    setState(() {
+      if(inds){
+        value = value *  10 +newValue;
+      } else {
+        value = newValue;
+      }
+      
+    });
+  });
 
-  _submit() => Placeholder(
-        fallbackHeight: 42,
-      );
+  _submit() => Container(
+    height: 50.0,
+    width: double.infinity,
+    decoration: BoxDecoration(
+      color: Colors.blueAccent,
+    ),
+    child: MaterialButton(
+      onPressed: () { 
+        if (value > 0 && category != ""){
+
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:  Text('Select a value or a category')));
+        }
+       },
+      child: Text('Add expense',
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 20.0
+      ),),
+    ),
+  );
 }
