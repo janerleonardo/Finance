@@ -1,4 +1,4 @@
-import 'package:finance/add_bills.dart';
+import 'package:finance/add_expenses.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'finance_app.dart';
