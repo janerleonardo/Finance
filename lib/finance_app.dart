@@ -34,16 +34,15 @@ class _FinanceApp extends State<FinanceApp> {
       children: [
         _selector(),
         StreamBuilder<QuerySnapshot>(
-          stream: _query,
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot>  data) {
-            if(data.hasData){
-              return  MonthWedget(documents: data.data!.docs);
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-            
-          }),
+            stream: _query,
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> data) {
+              if (data.hasData) {
+                return MonthWedget(documents: data.data!.docs);
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }),
       ],
     ));
   }
@@ -83,9 +82,9 @@ class _FinanceApp extends State<FinanceApp> {
             setState(() {
               currentPage = newPage;
               _query = FirebaseFirestore.instance
-                    .collection("expenses")
-                    .where("month", isEqualTo: currentPage +1)
-                    .snapshots();
+                  .collection("expenses")
+                  .where("month", isEqualTo: currentPage + 1)
+                  .snapshots();
             });
           },
           children: [
@@ -105,7 +104,6 @@ class _FinanceApp extends State<FinanceApp> {
         ));
   }
 
- 
   @override
   Widget build(BuildContext context) {
     final _buttomBar = BottomAppBar(
@@ -138,19 +136,14 @@ class _FinanceApp extends State<FinanceApp> {
   }
 
   @override
-   void initState()  {
+  void initState() {
     // TODO: implement initState
     _controller =
         PageController(initialPage: currentPage, viewportFraction: 0.4);
     super.initState();
     _query = FirebaseFirestore.instance
         .collection("expenses")
-        .where("month", isEqualTo: currentPage +1)
+        .where("month", isEqualTo: currentPage + 1)
         .snapshots();
-    
-   
   }
-
-
 }
-

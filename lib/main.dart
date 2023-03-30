@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       routes: {
-        '/':(context) => FinanceApp(),
-        '/add':(context) => AddExpenses()
+        '/': (context) => FinanceApp(),
+        '/add': (context) => AddExpenses()
       },
     );
   }
