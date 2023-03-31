@@ -25,7 +25,7 @@ class MonthWedget extends StatefulWidget {
         if (!map.containsKey(document['category'])){
             map[document['category']] = 0.0;
         }
-        map[document['category']] =  document['value'] ;
+        map[document['category']] = (map[document['category']]! + document['value'])! ;
         return map;
   }),
   super (key: key);
