@@ -15,7 +15,7 @@ class FinanceApp extends StatefulWidget {
 
 class _FinanceApp extends State<FinanceApp> {
   late PageController _controller;
-  late int currentPage = 9;
+  late int currentPage = DateTime.now().month-1;
   late Stream<QuerySnapshot> _query;
 
   Widget _bottomAction(IconData icon) {

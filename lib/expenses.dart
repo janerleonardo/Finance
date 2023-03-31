@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,7 +14,7 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  late String category;
+  late String category = "GOD";
   late double value = 0;
   @override
   Widget build(BuildContext context) {
@@ -93,8 +94,18 @@ class _ExpensesState extends State<Expenses> {
     ),
     child: MaterialButton(
       onPressed: () { 
-        if (value > 0 && category != ""){
-
+        print(category);
+        if (value > 0 && category.isNotEmpty){
+          FirebaseFirestore.instance
+                  .collection("expenses")
+                  .doc()
+                  .set({
+                    "category": category,
+                    "value": value,
+                    "month": DateTime.now().month,
+                    "day": DateTime.now().day
+                  });
+          Navigator.of(context).pop();
         } else {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:  Text('Select a value or a category')));
         }

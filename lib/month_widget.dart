@@ -11,7 +11,7 @@ class MonthWedget extends StatefulWidget {
   final List<DocumentSnapshot> documents;
   final double  total_value ;
   final List<double> perDay;
-  final Map<String,int> categories;
+  final Map<String,double> categories;
 
 
   
@@ -21,12 +21,11 @@ class MonthWedget extends StatefulWidget {
       return documents.where((doc) => doc['day'] == (index + 1))
                       .map((e) => e['value']).fold(0.0, (a, b) => a+b);
   }),
-  categories = documents.fold({}, (Map<String,int> map, document) {
+  categories = documents.fold({}, (Map<String,double> map, document) {
         if (!map.containsKey(document['category'])){
-            map[document['category']] = 0;
+            map[document['category']] = 0.0;
         }
-
-        map[document['category']] = document['value'];
+        map[document['category']] =  document['value'] ;
         return map;
   }),
   super (key: key);
@@ -87,7 +86,7 @@ class _MonthState extends State<MonthWedget> {
       itemBuilder: (context, index) {
             var key = widget.categories.keys.elementAt(index);
             var data1 = widget.categories[key];
-            return _Item(FontAwesomeIcons.shoppingCart, key, (100*data1!) as int, data1!);
+            return _Item(FontAwesomeIcons.shoppingCart, key, (100*data1!.toInt() ~/ widget.total_value) , data1);
             },
       separatorBuilder: (context, index) => Container(
         color: Colors.blueAccent.withOpacity(0.15),
@@ -97,7 +96,7 @@ class _MonthState extends State<MonthWedget> {
     ));
   }
 
-  _Item(IconData icon, String name, int percent, int value) {
+  _Item(IconData icon, String name, int percent, double value) {
     return ListTile(
       leading: Icon(
         icon,
